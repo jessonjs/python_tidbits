@@ -1,53 +1,44 @@
-import random
+import random   
 
-def randomAggregateItemSelect(iterations, items):
-    itemsAmount = {}
+def get_items_selected_percentages(items_selected: dict) -> dict:
+    items_count = 0
+    items_dict = {}
+    
+    for value in items_selected.values():
+        items_count += value
+
+    for key, val in items_selected.items():
+        items_dict[key] = "{:.2f}%".format((val / items_count) * 100)
+
+    return items_dict
+
+#
+def random_aggregate_item_select_type_deco(fn):
+    items_amount_dict = {str: int}
+    items_list = [str]
+
+    def wrapper(iterations: int, items: items_list) -> items_amount_dict:
+        return fn(iterations, items)
+    
+    return wrapper
+
+@random_aggregate_item_select_type_deco
+def random_aggregate_item_select(iterations, items):
+    items_amount = {}
 
     for _ in range(iterations):
-        itemIndex = random.randint(0, len(items) - 1)
-        itemSelected = items[itemIndex]
+        item_index = random.randint(0, len(items) - 1)
+        item_selected = items[item_index]
 
-        if itemSelected in itemsAmount:
-            itemsAmount[itemSelected] += 1
+        if item_selected in items_amount:
+            items_amount[item_selected] += 1
         else:
-            itemsAmount[itemSelected] = 1
+            items_amount[item_selected] = 1
 
-    return itemsAmount
-
-
-def getItemsSelectedPercentages(itemsSelected):
-    itemsCount = 0
-    itemsDict = {}
-    
-    for value in itemsSelected.values():
-        itemsCount += value
-
-    for key, val in itemsSelected.items():
-        itemsDict[key] = "{:.2f}".format((val / itemsCount) * 100) + "%"
-
-    return itemsDict
-
-coin = ["heads", "tails"]
-
-coinFlipped10 = randomAggregateItemSelect(10, coin)
-coinFlipped100 = randomAggregateItemSelect(100, coin)
-coinFlipped1000 = randomAggregateItemSelect(1000, coin)
-coinFlipped1000000 = randomAggregateItemSelect(1000000, coin)
-
-print("Coin flipped 10 times resulted in:", getItemsSelectedPercentages(coinFlipped10))
-print("Coin flipped 100 times resulted in:", getItemsSelectedPercentages(coinFlipped100))
-print("Coin flipped 1000 times resulted in:", getItemsSelectedPercentages(coinFlipped1000))
-print("Coin flipped 1000000 times resulted in:", getItemsSelectedPercentages(coinFlipped1000000), "\n")
+    return items_amount
 
 
-marbles = ["red", "red", "red", "red", "white", "red", "red", "red", "red", "red"]
+# example
+items_selected_100 = random_aggregate_item_select(100, ["heads", "tails"])
 
-marbleGrabbed10 = randomAggregateItemSelect(10, marbles)
-marbleGrabbed100 = randomAggregateItemSelect(100, marbles)
-marbleGrabbed1000 = randomAggregateItemSelect(1000, marbles)
-marbleGrabbed1000000 = randomAggregateItemSelect(1000000, marbles)
-
-print("Marble grabbed 10 times resulted in:", getItemsSelectedPercentages(marbleGrabbed10))
-print("Marble grabbed 100 times resulted in:", getItemsSelectedPercentages(marbleGrabbed100))
-print("Marble grabbed 1000 times resulted in:", getItemsSelectedPercentages(marbleGrabbed1000))
-print("Marble grabbed 1000000 times resulted in:", getItemsSelectedPercentages(marbleGrabbed1000000))
+print(get_items_selected_percentages(items_selected_100))
