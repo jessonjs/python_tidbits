@@ -1,4 +1,4 @@
-import random   
+from random import randint   
 
 def get_items_selected_percentages(items_selected: dict) -> dict:
     items_count = 0
@@ -27,7 +27,7 @@ def random_aggregate_item_select(iterations, items):
     items_amount = {}
 
     for _ in range(iterations):
-        item_index = random.randint(0, len(items) - 1)
+        item_index = randint(0, len(items) - 1)
         item_selected = items[item_index]
 
         if item_selected in items_amount:
