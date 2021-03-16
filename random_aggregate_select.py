@@ -1,16 +1,11 @@
 from random import randint   
 
 def get_items_selected_percentages(items_selected: dict) -> dict:
-    items_count = 0
-    items_dict = {}
+    items_count = reduce(lambda x, y : x + y, items_selected.values())
+
+    value_percentage = lambda val : "{:.2f}%".format((val / items_count) * 100)
     
-    for value in items_selected.values():
-        items_count += value
-
-    for key, val in items_selected.items():
-        items_dict[key] = "{:.2f}%".format((val / items_count) * 100)
-
-    return items_dict
+    return {key: value_percentage(val) for key, val in items_selected.items()}
 
 #
 def random_aggregate_item_select_type_deco(fn):
