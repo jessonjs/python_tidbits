@@ -1,4 +1,5 @@
-from random import randint   
+from random import randint
+from functools import reduce
 
 def get_items_selected_percentages(items_selected: dict) -> dict:
     items_count = reduce(lambda x, y : x + y, items_selected.values())
