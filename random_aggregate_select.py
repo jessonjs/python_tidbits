@@ -8,18 +8,7 @@ def get_items_selected_percentages(items_selected: dict) -> dict:
     
     return {key: value_percentage(val) for key, val in items_selected.items()}
 
-#
-def random_aggregate_item_select_type_deco(fn):
-    items_amount_dict = {str: int}
-    items_list = [str]
-
-    def wrapper(iterations: int, items: items_list) -> items_amount_dict:
-        return fn(iterations, items)
-    
-    return wrapper
-
-@random_aggregate_item_select_type_deco
-def random_aggregate_item_select(iterations, items):
+def random_aggregate_item_select(iterations: int, items: [str]) -> {str: int}:
     items_amount = {}
 
     for _ in range(iterations):
